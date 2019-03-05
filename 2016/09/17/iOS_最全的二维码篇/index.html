@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="二维码扫面当下很流行，也带来了很多的便利。我也不是在吹捧，你也许你也发现，几乎凡是个APP，都有扫描二维码的功能。现在网上的资料很多，我也是闲的蛋疼，在做一个美团的高仿项目，涉及到二维码的扫描功能，iOS7之前，开发者进行扫码编程时，一般会借助第三方库。常用的是ZBarSDKa和ZXingObjC，iOS7之后，系统的AVMetadataObject类中，为我们提供了解析二维码的接口。经过测试，使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS_最全的二维码篇">
+<meta property="og:url" content="https://jornwu.com/blog/2016/09/17/iOS_最全的二维码篇/index.html">
+<meta property="og:site_name" content="Jorn&#39;s Blog">
+<meta property="og:description" content="二维码扫面当下很流行，也带来了很多的便利。我也不是在吹捧，你也许你也发现，几乎凡是个APP，都有扫描二维码的功能。现在网上的资料很多，我也是闲的蛋疼，在做一个美团的高仿项目，涉及到二维码的扫描功能，iOS7之前，开发者进行扫码编程时，一般会借助第三方库。常用的是ZBarSDKa和ZXingObjC，iOS7之后，系统的AVMetadataObject类中，为我们提供了解析二维码的接口。经过测试，使">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-05T15:00:24.755Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS_最全的二维码篇">
+<meta name="twitter:description" content="二维码扫面当下很流行，也带来了很多的便利。我也不是在吹捧，你也许你也发现，几乎凡是个APP，都有扫描二维码的功能。现在网上的资料很多，我也是闲的蛋疼，在做一个美团的高仿项目，涉及到二维码的扫描功能，iOS7之前，开发者进行扫码编程时，一般会借助第三方库。常用的是ZBarSDKa和ZXingObjC，iOS7之后，系统的AVMetadataObject类中，为我们提供了解析二维码的接口。经过测试，使">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jornwu.com/blog/2016/09/17/iOS_最全的二维码篇/">
+
+
+
+
+
+  <title>iOS_最全的二维码篇 | Jorn's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jorn's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jornwu.com/blog/blog/2016/09/17/iOS_最全的二维码篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorn Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorn's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS_最全的二维码篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-17T19:09:38+08:00">
+                2016-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o">本文总阅读量</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>二维码扫面当下很流行，也带来了很多的便利。我也不是在吹捧，你也许你也发现，几乎凡是个APP，都有扫描二维码的功能。现在网上的资料很多，我也是闲的蛋疼，在做一个<a href="https://github.com/JornWu/MeiTuan_Swift" target="_blank" rel="noopener">美团的高仿项目</a>，涉及到二维码的扫描功能，iOS7之前，开发者进行扫码编程时，一般会借助第三方库。常用的是ZBarSDKa和ZXingObjC，iOS7之后，系统的AVMetadataObject类中，为我们提供了解析二维码的接口。经过测试，使用原生API扫描和处理的效率非常高，远远高于第三方库。我查了很多的资料，网上关于用系统原生类来实现二维码扫描的资料还是很多的，但都不是很全。所以我把一套功能的实现分享出来，希望你们喜欢。</p>
+<h3 id="这里包含："><a href="#这里包含：" class="headerlink" title="这里包含："></a>这里包含：</h3><ul>
+<li>1、窗口的搭建</li>
+<li>2、二维码的扫描</li>
+<li>3、从相册中读取二维码</li>
+<li>4、生成二维码</li>
+<li>5、长按识别二维码</li>
+</ul>
+<p>其中二维码的扫描主要是用到AVFoundation这个框架中的AVCaptureSession，读取二维码和识别二维码是同个原理，只是处理方式不同，主要用到的是CIDetector类，而生成二维码要用到CoreImage框架中的CIFilter滤镜类，值得一提的是CoreImage非常强大，这是iOS中关于图片处理的几乎所有内容集合，即图片的处理几乎都在CoreImage中，CIFilter也非常值得一究，mac上应该在CoreQuartz中。CoreImage和CIFilter的内容很多，我可能会在另外的文章中去分享。（我并不是大神，不敢吹牛逼说给大家讲解，只是分享和大家相互学习）</p>
+<p>详情看看我的源码：<br><a href="https://github.com/JornWu/MeiTuan_Swift" target="_blank" rel="noopener">美团的高仿项目</a> 更多模块中的“扫一扫”</p>
+<hr>
+<h2 id="1、窗口的搭建"><a href="#1、窗口的搭建" class="headerlink" title="1、窗口的搭建"></a>1、窗口的搭建</h2><p>这是UI的东西，很简单，想怎么弄就怎么弄，只要你happy就ok，这是我的代码：</p>
+<p>1.1、设置导航条：setupNavView()，editItemAction()中因为在iOS9+平台，所以用UIAlertController来列出多个ActionSheet功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">func setupNavView() &#123;</span><br><span class="line">	</span><br><span class="line">self.navigationController?.navigationBar.barTintColor = UIColor.clearColor()</span><br><span class="line">        self.title = &quot;二维码/条形码&quot;</span><br><span class="line">        //设置标题颜色</span><br><span class="line">        let navigationTitleAttribute = NSDictionary(object: UIColor.whiteColor(), forKey: NSForegroundColorAttributeName)</span><br><span class="line">        self.navigationController?.navigationBar.titleTextAttributes = navigationTitleAttribute as? [String : AnyObject]</span><br><span class="line">        </span><br><span class="line">        //1.返回</span><br><span class="line">        let backBtn = UIButton(type: UIButtonType.Custom)</span><br><span class="line">        backBtn.frame = CGRectMake(20, 30, 25, 25);</span><br><span class="line">        </span><br><span class="line">        backBtn.setBackgroundImage(UIImage(named: &quot;qrcode_scan_titlebar_back_nor&quot;), forState:UIControlState.Normal);</span><br><span class="line">        backBtn.contentMode = UIViewContentMode.ScaleAspectFit</span><br><span class="line">        backBtn.addTarget(self, action: #selector(QRCodeScanViewController.backBtnAction), forControlEvents: UIControlEvents.TouchUpInside)</span><br><span class="line">        </span><br><span class="line">        let backItem = UIBarButtonItem(customView: backBtn)</span><br><span class="line">        self.navigationItem.leftBarButtonItem = backItem</span><br><span class="line">        </span><br><span class="line">        let editItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(QRCodeScanViewController.editItemAction))</span><br><span class="line">        self.navigationItem.rightBarButtonItem = editItem</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">       //  deprecated  //</span><br><span class="line">//        //2.相册</span><br><span class="line">//        let albumBtn = UIButton(type: UIButtonType.Custom)</span><br><span class="line">//        albumBtn.frame = CGRectMake(0, 0, 35, 49)</span><br><span class="line">//        albumBtn.center = CGPointMake(self.view.bounds.width / 2, 20 + 49 / 2.0)</span><br><span class="line">//        albumBtn.setBackgroundImage(UIImage(named: &quot;qrcode_scan_btn_photo_down&quot;), forState: UIControlState.Normal)</span><br><span class="line">//        albumBtn.contentMode=UIViewContentMode.ScaleAspectFit</span><br><span class="line">//        albumBtn.addTarget(self, action: #selector(QRCodeScanViewController.openAlbum), forControlEvents: UIControlEvents.TouchUpInside)//        self.view.addSubview(albumBtn)</span><br><span class="line">//        </span><br><span class="line">//        //3.闪光灯</span><br><span class="line">//        let flashBtn = UIButton(type: UIButtonType.Custom)</span><br><span class="line">//        flashBtn.frame = CGRectMake(self.view.bounds.width - 55, 20, 35, 49)</span><br><span class="line">//        flashBtn.setBackgroundImage(UIImage(named: &quot;qrcode_scan_btn_flash_down&quot;), forState: UIControlState.Normal)</span><br><span class="line">//        flashBtn.contentMode=UIViewContentMode.ScaleAspectFit</span><br><span class="line">//        flashBtn.addTarget(self, action: #selector(QRCodeScanViewController.openFlash(_:)), forControlEvents: UIControlEvents.TouchUpInside)</span><br><span class="line">//        self.view.addSubview(flashBtn)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">func editItemAction() &#123;</span><br><span class="line">        </span><br><span class="line">        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)</span><br><span class="line">        let action1 = UIAlertAction(title: &quot;从相册选取二维码&quot;, style: .Default) &#123;</span><br><span class="line">            [unowned self]</span><br><span class="line">            (act) in</span><br><span class="line">            self.openAlbum()</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let action2 = UIAlertAction(title: &quot;打开闪光灯&quot;, style: .Default) &#123;</span><br><span class="line">            [unowned self]</span><br><span class="line">            (act) in</span><br><span class="line">            self.openFlash()</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let action3 = UIAlertAction(title: &quot;生成二维码&quot;, style: .Default) &#123;</span><br><span class="line">            [unowned self]</span><br><span class="line">            (act) in</span><br><span class="line">            </span><br><span class="line">            let inputVC = UIAlertController(title: &quot;输入信息&quot;, message: nil, preferredStyle: .Alert)</span><br><span class="line">            let cancelAction = UIAlertAction(title: &quot;取消&quot;, style: .Cancel, handler: nil)</span><br><span class="line">            let okayAction = UIAlertAction(title: &quot;确定&quot;, style: .Default)&#123;</span><br><span class="line">                [unowned self]</span><br><span class="line">                (act) in</span><br><span class="line">                ///生成二维码图片</span><br><span class="line">                let QRCodeImage = self.createQRCodeImage(withImage: UIImage(named: &quot;icon_mine_default_portrait&quot;)!, string: self.textInfo!)</span><br><span class="line">                </span><br><span class="line">                ///展示在界面上</span><br><span class="line">                let imageBtn = UIButton(frame: CGRectMake(0, 64, SCREENWIDTH, SCREENHEIGHT - 64))</span><br><span class="line">                imageBtn.setImage(QRCodeImage, forState: .Normal)</span><br><span class="line">                imageBtn.addTarget(self, action: #selector(self.imageBtnAction(_:)), forControlEvents: .TouchUpInside)</span><br><span class="line">                imageBtn.backgroundColor = THEMECOLOR</span><br><span class="line">                self.view.addSubview(imageBtn)</span><br><span class="line">                </span><br><span class="line">                ///保存到相册</span><br><span class="line">                //UIImageWriteToSavedPhotosAlbum(QRCodeImage, self, #selector(self.image(_: didFinishSavingWithError: contextInfo: )), nil)</span><br><span class="line">                </span><br><span class="line">                inputVC.dismissViewControllerAnimated(true, completion: &#123; </span><br><span class="line">                    print(&quot;生成二维码&quot;)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            inputVC.addAction(cancelAction)</span><br><span class="line">            inputVC.addAction(okayAction)</span><br><span class="line">            </span><br><span class="line">            inputVC.addTextFieldWithConfigurationHandler(&#123; (textField) in</span><br><span class="line">                textField.borderStyle = .None</span><br><span class="line">                textField.placeholder = &quot;输入需要保存的信息&quot;</span><br><span class="line">                textField.delegate = self</span><br><span class="line">                textField.becomeFirstResponder()</span><br><span class="line">            &#125;)</span><br><span class="line">            </span><br><span class="line">            self.presentViewController(inputVC, animated: true, completion: &#123;</span><br><span class="line">                print(&quot;输入信息可以生成二维码&quot;)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let action4 = UIAlertAction(title: &quot;取消&quot;, style: .Cancel, handler: nil)</span><br><span class="line">        </span><br><span class="line">        actionSheet.addAction(action1)</span><br><span class="line">        actionSheet.addAction(action2)</span><br><span class="line">        actionSheet.addAction(action3)</span><br><span class="line">        actionSheet.addAction(action4)</span><br><span class="line">        </span><br><span class="line">        self.presentViewController(actionSheet, animated: true, completion: nil)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>1.3、遮罩（蒙板）的设置：setupMaskView()</p>
+<pre><code>
+ let kMargin = CGFloat(50)
+
+
+    func setupMaskView() {
+
+        maskView = UIView()
+        maskView.layer.borderColor = UIColor(red: CGFloat(0), green: CGFloat(0), blue: CGFloat(0), alpha: CGFloat(0.7)).CGColor
+        maskView.layer.borderWidth = kMargin
+
+        let maskViewSize = CGSizeMake(self.view.extWidth(), self.view.extWidth())///正方形，下面会露出来，还要添加补充遮罩
+        maskView.frame = CGRectMake(0, 64, maskViewSize.width, maskViewSize.height)
+        self.view.addSubview(maskView)
+
+        ///补充遮罩
+        let mask = UIView(frame: CGRectMake(0, maskView.extY() + maskView.extHeight(), SCREENWIDTH, SCREENHEIGHT - (maskView.extY() + maskView.extHeight())))
+        mask.backgroundColor = UIColor(red: CGFloat(0), green: CGFloat(0), blue: CGFloat(0), alpha: CGFloat(0.7))
+        self.view.addSubview(mask)
+
+    }
+
+</code></pre>
+
+<p>1.4、扫描区域的设置：setupScanWindowView()</p>
+<pre><code>
+ func setupScanWindowView() {
+
+        let scanWindowH = maskView.extWidth() - kMargin * 2 ///kMargin为黑色边框的一半，
+        let scanWindowW = scanWindowH
+
+        scanWindow =  UIView(frame: CGRectMake(kMargin, kMargin + 64, scanWindowW, scanWindowH))///隐形的框
+        scanWindow.clipsToBounds = true
+        self.view.addSubview(scanWindow)
+
+        scanNetImageView = UIImageView(image: UIImage(named: "scan_net"))
+        scanNetImageView.extSetY(-1 * scanNetImageView.extHeight())
+        scanWindow.addSubview(scanNetImageView)
+
+        let buttonWH = CGFloat(18)
+        let topLift = UIImageView(frame: CGRectMake(0, 0, buttonWH, buttonWH))
+        topLift.image = UIImage(named: "scan_1")
+        let topRight = UIImageView(frame: CGRectMake(scanWindowW - buttonWH, 0, buttonWH, buttonWH))
+        topRight.image = UIImage(named: "scan_2")
+        let bottomLeft = UIImageView(frame: CGRectMake(0, scanWindowH - buttonWH, buttonWH, buttonWH))
+        bottomLeft.image = UIImage(named: "scan_3")
+        let bottomRight = UIImageView(frame: CGRectMake(topRight.frame.origin.x, bottomLeft.frame.origin.y, buttonWH, buttonWH))
+        bottomRight.image = UIImage(named: "scan_4")
+
+        scanWindow.addSubview(topLift)
+        scanWindow.addSubview(topRight)
+        scanWindow.addSubview(bottomLeft)
+        scanWindow.addSubview(bottomRight)
+
+        self.view.addSubview(scanWindow)
+    }
+
+</code></pre>
+
+<h2 id="2、二维码的扫描"><a href="#2、二维码的扫描" class="headerlink" title="2、二维码的扫描"></a>2、二维码的扫描</h2><p>主要用的的是AVCaptureSession类，然后设置input和output即可，值得一提的是扫码支持的类型：output.metadataObjectTypes。iOS已经提供了很多，但是并不全，不过包含了常用的二维码AVMetadataObjectTypeQRCode和条形码AVMetadataObjectTypeCode128Code等</p>
+<pre><code>
+func beginScanning() {///要真机
+        ///模拟图片动起来
+        ///way 1、UIView Animation
+        UIView.animateWithDuration(1.5, delay: 0, options: UIViewAnimationOptions.Repeat, animations: {
+            [unowned self] in
+            self.scanNetImageView.transform = CGAffineTransformTranslate(self.scanNetImageView.transform, 0, self.scanWindow.extHeight())
+            }, completion: nil)
+
+        ///way 2、coreAnimation
+
+
+        //初始化链接对象
+        session = AVCaptureSession()
+        //高质量采集率
+        session.sessionPreset = AVCaptureSessionPresetHigh
+
+        let preLayer = AVCaptureVideoPreviewLayer(session: session)///注意session存放的地方
+        preLayer.frame = self.view.bounds
+        self.view.layer.insertSublayer(preLayer, atIndex: 0)
+
+        /*
+         * AVCaptureDevice 获取摄像设备
+         * AVCaptureDeviceInput 创建输入流
+         * AVCaptureMetadataOutput 创建输出了
+         */
+
+        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        var input: AVCaptureDeviceInput?
+        do {
+
+            input = try AVCaptureDeviceInput(device: device)
+            ///add input
+
+        }catch let error as NSError {
+            // 发生了错误
+            print(error.localizedDescription)
+        }
+        catch {
+            print("--input未知错误--")
+        }
+        ///add input
+        session.addInput(input)
+
+        let output = AVCaptureMetadataOutput()
+        ///add delegate
+        output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())//主队列（主线程）
+
+        ///设置“感兴趣”区域（敏感区域）
+        let interestRect = preLayer.metadataOutputRectOfInterestForRect(scanWindow.frame)///扫描区 到 metadata输出区
+        ///值等于CGRectMake(scanWindow.extY() / SCREENHEIGHT, scanWindow.extX() / SCREENWIDTH, scanWindow.extHeight() / SCREENHEIGHT, scanWindow.extWidth() / SCREENWIDTH)
+        ///把一个在 preview layer 坐标系中的rect 转换成一个在 metadata output 坐标系中的rect
+
+        output.rectOfInterest = interestRect ///注意，这个并不是扫描区的坐标尺寸
+
+        session.addOutput(output)
+
+        //设置扫码支持的类型
+        output.metadataObjectTypes = [AVMetadataObjectTypeDataMatrixCode,
+                                      AVMetadataObjectTypeAztecCode,
+                                      AVMetadataObjectTypeQRCode,
+                                      AVMetadataObjectTypePDF417Code, 
+                                      AVMetadataObjectTypeEAN13Code,
+                                      AVMetadataObjectTypeEAN8Code,
+                                      AVMetadataObjectTypeCode128Code]
+
+        ///常用的码制有：PDF417二维条码、Datamatrix二维条码、QR Code、Code 49、Code 16K、Code one等，
+        ///除了这些常见的二维条码之外，还有Vericode条码、Maxicode条码、CP条码、Codablock F条码、 Ultracode条码及Aztec条码。
+
+
+
+        ///start grab
+        session.startRunning()
+
+    }
+
+</code></pre>
+
+<h2 id="3、从相册中读取二维码"><a href="#3、从相册中读取二维码" class="headerlink" title="3、从相册中读取二维码"></a>3、从相册中读取二维码</h2><p>主要用到的是CIDetector检测器类，然后获取feature对象。</p>
+<pre><code>
+
+/***********照片读取**************/
+
+    func openAlbum(){//相册
+
+        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary)){
+
+            ///1.初始化相册拾取器
+            let pikController = UIImagePickerController()
+            ///2.设置代理
+            pikController.delegate = self//两个代理
+            //3.设置资源：
+            /**
+            UIImagePickerControllerSourceTypePhotoLibrary,相册
+            UIImagePickerControllerSourceTypeCamera,相机
+            UIImagePickerControllerSourceTypeSavedPhotosAlbum,照片库
+            */
+            pikController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+            //4.随便给他一个转场动画
+            pikController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+            self.presentViewController(pikController, animated: true, completion: nil)
+
+        }else{
+
+            let alertVC = UIAlertController(title: "提示", message: "设备不支持访问相册，请在设置->隐私->照片中进行设置！", preferredStyle: UIAlertControllerStyle.Alert)
+            let action = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+            alertVC.addAction(action)
+
+            self.presentViewController(alertVC, animated: true, completion: nil)
+
+        }
+
+    }
+
+    ///imagePickerControllerdelegate func
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        ///1.获取选择的图片
+        let image = info[UIImagePickerControllerOriginalImage]
+        ///2.初始化一个监测器
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: [ CIDetectorAccuracy : CIDetectorAccuracyHigh ])
+        picker.dismissViewControllerAnimated(true) { () -> Void in
+            ///监测到的结果数组
+            let features = detector.featuresInImage(CIImage(CGImage: (image?.CGImage)!))
+
+            if features.count >= 1 {
+                /**结果对象 */
+                ///CIQRCodeFeature
+                let feature = features[0] as! CIQRCodeFeature
+                let scannedResult = feature.messageString
+
+                let alertVC = UIAlertController(title: "提示", message: scannedResult, preferredStyle: UIAlertControllerStyle.Alert)
+                self.presentViewController(alertVC, animated: true, completion: nil)
+
+            }else {
+                let alertVC = UIAlertController(title: "提示", message: "该图片没有包含一个二维码！", preferredStyle: UIAlertControllerStyle.Alert)
+                let action = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                alertVC.addAction(action)
+
+                self.presentViewController(alertVC, animated: true, completion: nil)
+            }
+        }
+    }
+
+</code></pre>
+
+<h2 id="4、生成二维码"><a href="#4、生成二维码" class="headerlink" title="4、生成二维码"></a>4、生成二维码</h2><p>生成二维码处理过程有点复杂，首先要导入CoreImage，然后用CIFilter生成图片，name为CIQRCodeGenerator就是二维码滤镜，CICode128BarcodeGenerator就是条形码滤镜，当然还有很多滤镜，如下面会用到的颜色滤镜name为CIFalseColor。</p>
+<p>4.1、原生二维码的生成</p>
+<pre><code>
+ /***********生成二维码图片**************/ ///coreImage
+
+    func createQRCodeImage(withImage image: UIImage, string: String) -> UIImage {
+
+        /// 1. 实例化二维码滤镜
+        let filter = CIFilter(name: "CIQRCodeGenerator")///CICode128BarcodeGenerator ///条形码
+        ///注意
+
+        /// 2. 恢复滤镜的默认属性
+        filter?.setDefaults()
+
+        /// 3. 将字符串转换成二进制数据，（生成二维码所需的数据）
+        let data = string.dataUsingEncoding(NSUTF8StringEncoding)
+
+        /// 4. 通过KVO把二进制数据添加到滤镜inputMessage中
+        filter?.setValue(data, forKey: "inputMessage")
+        filter?.setValue("H", forKey: "inputCorrectionLevel")
+
+        /// 5. 获得滤镜输出的图像
+        let outputImage = filter?.outputImage ///CIImage
+
+        /// 6. 将CIImage转换成UIImage，并放大显示
+        //let originQRCodeImage = UIImage(CIImage: outputImage!, scale: 0.07, orientation: UIImageOrientation.Up) ///原生二维码图片 ///这样将图片放大会变得模糊
+        //return originQRCodeImage
+
+        ///进行重绘
+        let newQRCodeImage = createUIimageWithCGImage(ciImage: outputImage!, widthAndHeightValue: 300)
+
+        return newQRCodeImage
+    }
+
+</code></pre>
+
+<p>如果你直接用这行代码返回图片</p>
+<pre><code>
+let originQRCodeImage = UIImage(CIImage: outputImage!, scale: 0.07, orientation: UIImageOrientation.Up) ///原生二维码图片 ///这样将图片放大会变得模糊
+return originQRCodeImage
+</code></pre> 
+
+<p> 得到的图片将会很模糊，因为这是将图片进行放大了，但图片将0.07改为了1，看到的图片将会很小。 </p>
+<p> 所以还的处理一下：</p>
+<pre><code>     
+func createUIimageWithCGImage(ciImage image: CIImage, widthAndHeightValue wh: CGFloat) -> UIImage {
+        let ciRect = CGRectIntegral(image.extent)///根据容器得到适合的尺寸
+        let scale = min(wh / ciRect.width, wh / ciRect.height)
+
+        ///获取bitmap
+
+        let width  = size_t(ciRect.width * scale)
+        let height  = size_t(ciRect.height * scale)
+        let cs = CGColorSpaceCreateDeviceGray()///灰度颜色通道 ///CGColorSpaceRef
+
+        let info_UInt32 = CGImageAlphaInfo.None.rawValue
+        let bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, info_UInt32)
+
+        let contex = CIContext(options: nil)
+        let bitmapImageRef = contex.createCGImage(image, fromRect: CGRectMake(ciRect.origin.x, ciRect.origin.y, ciRect.size.width, ciRect.size.height)) ///CGImageRef
+
+        CGContextSetInterpolationQuality(bitmapRef, CGInterpolationQuality.High)///写入质量高，时间长
+        CGContextScaleCTM(bitmapRef, scale, scale) ///调整“画布”的缩放
+        CGContextDrawImage(bitmapRef, ciRect, bitmapImageRef) ///绘制图片
+
+        ///保存
+        let scaledImage = CGBitmapContextCreateImage(bitmapRef)
+
+        ///bitmapRef和bitmapImageRef不用主动释放，Core Foundation自动管理
+
+        //let originImage = UIImage(CGImage: scaledImage!) ///原生灰度图片（灰色）
+
+        let ciImage = CIImage(CGImage: scaledImage!)
+
+        ///添加滤镜
+        let colorFilter = CIFilter(name: "CIFalseColor")///颜色滤镜
+        colorFilter!.setDefaults()
+        colorFilter!.setValue(ciImage, forKey:kCIInputImageKey)
+
+        colorFilter!.setValue(CIColor(red: 33.0 / 225.0, green: 192.0 / 225.0, blue: 174.0 / 225.0, alpha: 1.0), forKey:"inputColor0")///二维码元素（像素）
+        colorFilter!.setValue(CIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1), forKey:"inputColor1")///背景
+
+        let colorImgae = colorFilter!.outputImage
+        let newQRCodeImage = UIImage(CIImage: colorImgae!)
+
+        return newQRCodeImage
+
+    }
+
+</code></pre> 
+
+<p>这样将会得到彩色的二维码，效果也还不错，这里又添加colorFilter这样滤镜，达到着色的效果。iOS其实可以混合多个滤镜来实现很多不能的效果，手机自带的图片处理就是基于滤镜来完成，如果你有使用过PS，或了解过知识，这就很容易理解了。如果去掉这部分代码得到的将会是灰色的图片。</p>
+<p>其实重新着色，还可以通过，context来重绘或者通过改变每个像素的的颜色值来达到目的，但是难度会远比添加一个滤镜要复杂的多，而且，Swift中通过指针来处理数据，写法将会更加复杂，这是因为Swift是一门语法安全性语言。也没有*P这样的写法。</p>
+<p>关于CIFilter的更多知识，我就会在后续文章中分享，你们也可以通过资料去学习，总之，这部分知识还是很容易理解的，也比较有趣。</p>
+<p>最后，想了解更多详情：请查看我的demo，记得给个Star，😝😝😝</p>
+<p>下载：<a href="https://github.com/JornWu/MeiTuan_Swift" target="_blank" rel="noopener">点击这里</a></p>
+
+      
+    </div>
+    
+    
+    
+		
+		
+		
+		<div>
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		</div>
+		
+
+		
+		<div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/blog/2016/09/17/iOS_最全的二维码篇/">iOS_最全的二维码篇</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Jorn Wu 的个人博客">Jorn Wu</a></p>
+  <p><span>发布时间:</span>2016年09月17日 - 19:09</p>
+  <p><span>最后更新:</span>2019年03月05日 - 23:03</p>
+  <p><span>原始链接:</span><a href="/blog/2016/09/17/iOS_最全的二维码篇/" title="iOS_最全的二维码篇">https://jornwu.com/blog/2016/09/17/iOS_最全的二维码篇/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://jornwu.com/blog/2016/09/17/iOS_最全的二维码篇/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+	  $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	    });
+    });  
+</script>
+
+		</div>
+		
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Jorn Wu 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Jorn Wu 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/09/21/CIFilter介绍/" rel="prev" title="看了这个，你就可以打造自己的美图秀秀">
+                看了这个，你就可以打造自己的美图秀秀 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/blog/images/avatar.png" alt="Jorn Wu">
+            
+              <p class="site-author-name" itemprop="name">Jorn Wu</p>
+              <p class="site-description motion-element" itemprop="description">Jorn 的个人博客分享站，涉及iOS，Android，Qt，Linux等</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/JornWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/c718dbf8e4d0" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#这里包含："><span class="nav-number">1.</span> <span class="nav-text">这里包含：</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#1、窗口的搭建"><span class="nav-number"></span> <span class="nav-text">1、窗口的搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、二维码的扫描"><span class="nav-number"></span> <span class="nav-text">2、二维码的扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、从相册中读取二维码"><span class="nav-number"></span> <span class="nav-text">3、从相册中读取二维码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、生成二维码"><span class="nav-number"></span> <span class="nav-text">4、生成二维码</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jorn Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">10.7k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user">本站访客数</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye">本站总访问量</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

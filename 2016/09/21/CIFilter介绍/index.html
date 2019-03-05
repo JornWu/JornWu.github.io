@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="上篇文章iOS_最全的二维码篇说要给大家简绍一下强大而好玩工具CIFilter,所以这今天晚上给大家分享一个demo。我保证你看了这篇文章之后，肯定能做出自己的美图工具，我发誓（虽然并没卵用）。 CIFilter,其实就是一个滤镜。喜欢摄影的小伙伴，可能接触过PS，而接触过PS的小伙伴，对滤镜肯定不陌生。而且有了解相关知识的小伙伴，对于颜色和图片处理的认知也一定信手捏来。什么RGB，什么CMYK，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="看了这个，你就可以打造自己的美图秀秀">
+<meta property="og:url" content="https://jornwu.com/blog/2016/09/21/CIFilter介绍/index.html">
+<meta property="og:site_name" content="Jorn&#39;s Blog">
+<meta property="og:description" content="上篇文章iOS_最全的二维码篇说要给大家简绍一下强大而好玩工具CIFilter,所以这今天晚上给大家分享一个demo。我保证你看了这篇文章之后，肯定能做出自己的美图工具，我发誓（虽然并没卵用）。 CIFilter,其实就是一个滤镜。喜欢摄影的小伙伴，可能接触过PS，而接触过PS的小伙伴，对滤镜肯定不陌生。而且有了解相关知识的小伙伴，对于颜色和图片处理的认知也一定信手捏来。什么RGB，什么CMYK，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jornwu.com/Users/jornwu/Desktop/锐化.png">
+<meta property="og:image" content="https://jornwu.com/Users/jornwu/Desktop/重绘效果.png">
+<meta property="og:image" content="https://jornwu.com/Users/jornwu/Desktop/重绘+锐化效果图.png">
+<meta property="og:updated_time" content="2019-03-05T14:48:35.672Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="看了这个，你就可以打造自己的美图秀秀">
+<meta name="twitter:description" content="上篇文章iOS_最全的二维码篇说要给大家简绍一下强大而好玩工具CIFilter,所以这今天晚上给大家分享一个demo。我保证你看了这篇文章之后，肯定能做出自己的美图工具，我发誓（虽然并没卵用）。 CIFilter,其实就是一个滤镜。喜欢摄影的小伙伴，可能接触过PS，而接触过PS的小伙伴，对滤镜肯定不陌生。而且有了解相关知识的小伙伴，对于颜色和图片处理的认知也一定信手捏来。什么RGB，什么CMYK，">
+<meta name="twitter:image" content="https://jornwu.com/Users/jornwu/Desktop/锐化.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jornwu.com/blog/2016/09/21/CIFilter介绍/">
+
+
+
+
+
+  <title>看了这个，你就可以打造自己的美图秀秀 | Jorn's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jorn's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jornwu.com/blog/blog/2016/09/21/CIFilter介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorn Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorn's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">看了这个，你就可以打造自己的美图秀秀</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-21T23:19:22+08:00">
+                2016-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o">本文总阅读量</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上篇文章<a href="http://www.jianshu.com/p/7b0def7c2e74" target="_blank" rel="noopener">iOS_最全的二维码篇</a>说要给大家简绍一下强大而好玩工具<code>CIFilter</code>,所以这今天晚上给大家分享一个demo。我保证你看了这篇文章之后，肯定能做出自己的美图工具，我发誓（虽然并没卵用）。</p>
+<p><code>CIFilter</code>,其实就是一个滤镜。喜欢摄影的小伙伴，可能接触过PS，而接触过PS的小伙伴，对滤镜肯定不陌生。而且有了解相关知识的小伙伴，对于颜色和图片处理的认知也一定信手捏来。什么RGB，什么CMYK，什么灰度图片，什么高斯模糊，什么锐化，什么对比度，什么饱和度，什么颜色通道，为什么值在255之间等等。我为什么知道这些，其实我也是大一的时候，刚上大学，课不是很多，时间充足，那时候，都还不知道LOL(呵呵，现在，此处省略1W字)，还带着高中的稚气和志气。想想要学点啥一技之长。记得高中时候，有次去拍一寸照，看那sb老板，不懂PS，硬是给我照片乱修。结果照片老丑，还硬坑我20块钱。所以大学就想到自己学学PS，在处理照片的时候可以自己修。而且，PS还可以做很多平面设计。说不定以后可以去做设计的工作。一个好的设计师，薪资还是很高的（^_^）。所以自己学了一年多的PS（堪称大神了，然并卵），后来学的差不多了。海报设计，网页设计，UI设计，还有其他各种设计，图文排版，图片处理，婚纱处理，P图等什么滴都自己做过（厉害吧）。大二的时候又学了一年的AI，后来还想学AE来着（因为大学嘛，越到后来，你懂得。游戏也开始玩起来了）。学了PS和AI，其实我还是觉得很不错的，不只在一个地方看到，PS和AI就像左右手，这也是做平面设计的工作者必备的两技能。一个负责位图，一个负责矢量图，功能都超强大。现在iOS上用的icon基本都是用这两工具设计的。虽然现在不慎混到了程序猿的大流。不过想想懂这也不是无可用武之地，至少在图片处理，颜色的认知上还有挺有帮助的（呵呵，安慰一下自己）。（扯远了。。。）</p>
+<p>言归正传，你学会使用<code>CIFilter</code>，你就可以随意处理你想要的效果。系统给我们提供的滤镜种类是非常的多，不是十几个，是几十个。没错！</p>
+<blockquote>
+<p><code>CoreImage</code>是个非常强大框架，集图片的几乎所有操作编辑于一身，<code>CIFilter</code>只是其中的一个工具，主要作用是给图片渲染不同的效果<br><code>CIFilter</code>的种类很多，所以苹果的官方文档也只能给出部分常用的种类的说明。<br>官方文档给出的部分说明：<a href="https://developer.apple.com/library/content/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/uid/TP30000136-SW29" target="_blank" rel="noopener">点击这里</a><br>虽然官方文档很简洁，但国外的大神们已经证明这是个相当强悍的框架，<br>不仅功能强大，而且可以直接使用<code>GPU</code>，效率奇高，甚至可以实时的对视频进行渲染。</p>
+<p>下面让我们来看看，如何具体使用它：<br>首先你需要导入<code>CoreImage.framework</code>框架；进行Mac（不是iOS）开发的同学请导入<code>QuartzCore.framework</code>框架，包含在其中了。<br>然后我们先来看看3个主要的类：<br><code>CIContext</code>：它与<code>CoreGraphics</code>和 <code>OpenGL context</code>类似，所有<code>CoreImage</code>的处理流程都通过它来进行；<br><code>CIImage</code>：它用来存放图片数据，可以通过<code>UIImage</code>，图片文件或像素数据创建；<br><code>CIFilter</code>：通过它来定义过滤器的详细属性。<br><code>CIContext</code>有两种初始化方法，分别对应<code>GPU</code>和<code>CPU</code></p>
+</blockquote>
+<pre>   
+    // 创建基于GPU的CIContext对象
+    context = [CIContext contextWithOptions: nil];
+
+    // 创建基于CPU的CIContext对象
+    //context = [CIContext contextWithOptions: [NSDictionarydictionaryWithObject:[NSNumber numberWithBool:YES]
+    forKey:kCIContextUseSoftwareRenderer]];
+    一般采用第一种基于GPU的，因为效率要比CPU高很多，但是要注意的是基于GPU的CIContext对象无法跨应用访问。
+    比如你打开UIImagePickerController要选张照片进行美化，如果你直接在UIImagePickerControllerDelegate的委托方法里调用CIContext对象进行处理，那么系统会自动将其降为基于CPU的，速度会变慢，所以正确的方法应该是在委托方法里先把照片保存下来，回到主类里再来处理。
+</pre>
+
+<p><code>CIFilter</code>的强大之处在于，可以叠加来得到多种效果。看过<a href="http://www.jianshu.com/p/7b0def7c2e74" target="_blank" rel="noopener">iOS_最全的二维码篇</a>这篇文章的小伙伴肯定知道了什么叫叠加，其实如果你按那篇文章我说的练习一下，你就会发现，得到的图片也还是不过清晰。因为，二维码生成的原图太小，放大就很模糊。其实我在用PS处理手机拍的图片时，一开始少不了这三步，补点光，太暗；增加的对比度，不够鲜明；锐化一下，细节不过清晰。对，就是锐化一下。等下会让你获得一副清晰的二维码图。</p>
+<p>首先让你知道，怎么查看到底有哪些滤镜：</p>
+<pre><code>
+        /* Categories */
+//        public let kCICategoryDistortionEffect: String ///失真效果
+//        public let kCICategoryGeometryAdjustment: String ///几何调整
+//        public let kCICategoryCompositeOperation: String ///复合操作
+//        public let kCICategoryHalftoneEffect: String ///半色调效果
+//        public let kCICategoryColorAdjustment: String ///颜色调整
+//        public let kCICategoryColorEffect: String ///颜色效果
+//        public let kCICategoryTransition: String ///翻转
+//        public let kCICategoryTileEffect: String ///瓦片效果
+//        public let kCICategoryGenerator: String ///生成器
+//        @available(iOS 5.0, *)
+//        public let kCICategoryReduction: String ///削减
+//        public let kCICategoryGradient: String ///梯度
+//        public let kCICategoryStylize: String ///风格
+//        public let kCICategorySharpen: String ///锐化
+//        public let kCICategoryBlur: String ///模糊
+//        public let kCICategoryVideo: String ///视频
+//        public let kCICategoryStillImage: String ///静态图片
+//        public let kCICategoryInterlaced: String ///交叉
+//        public let kCICategoryNonSquarePixels: String ///非方形像素
+//        public let kCICategoryHighDynamicRange: String ///高动态范围
+//        public let kCICategoryBuiltIn: String ///内建
+//        @available(iOS 9.0, *)
+//        public let kCICategoryFilterGenerator: String ///滤镜生成器
+</code></pre>
+
+<p>这是系统含有的所有大类。<br>想知道有哪些filter类型或想查找想要的filter类型，可以通过先查找大的分类（如上），然后在查找子项。</p>
+<pre><code>
+        let names = CIFilter.filterNames(inCategory: kCICategoryGenerator) ///kCICategoryGenerator大类
+        print(names)
+</code></pre>
+这样就会输出该大类包含的所有滤镜。如上会输出所有的生成器类型<code>CIFilter</code>种类：
+<pre><code>
+ ///生成器大类所包含的所有生成器子类，如："CICode128BarcodeGenerator"（条形码生成器），"CIQRCodeGenerator"（二维码生成器）
+//        ["CIAztecCodeGenerator",
+//         "CICheckerboardGenerator",
+//         "CICode128BarcodeGenerator", ///条形码生成器
+//         "CIConstantColorGenerator",
+//         "CILenticularHaloGenerator",
+//         "CIPDF417BarcodeGenerator",
+//         "CIQRCodeGenerator", ///二维码生成器
+//         "CIRandomGenerator",
+//         "CIStarShineGenerator",
+//         "CIStripesGenerator",
+//         "CISunbeamsGenerator"]
+</code></pre>
+
+<p>然后就可以创建滤镜对象了,有两方法，含参数的仅iOS8之后可用，iOS上不设输入参数，系统会使用默认值，但是mac是会报错，输入参数不明确：</p>
+<pre><code>
+/** Creates a new filter of type 'name'.
+         On OSX, all input values will be undefined.
+         On iOS, all input values will be set to default values. */
+        /// 要是是mac开发，创建filter对象必须提供输入参数，iOS可以忽略，系统会使用默认值。
+        //init?(name: String)
+        //@available(iOS 8.0, *) ///iOS 8.0 之后
+        //init?(name: String, withInputParameters params: [String : Any]?)
+</code></pre>
+
+<p>看看该滤镜需要设置那些输入参数，如此：</p>
+<pre><code>
+        let filter = CIFilter(name: "CIQRCodeGenerator")
+        let inpoutkeys = filter?.inputKeys ///查看这个filter的所有输入参数
+        let outputKeys = filter?.outputKeys ///查看这个filter的所有输出参数
+
+        print("inpoutkeys:",inpoutkeys)
+        print("outputKeys:",outputKeys)
+</code></pre>
+
+<p>设置参数用<code>KVC</code>来设置，常用的<code>key</code>，系统已经作为常量给出，可以<code>cmd</code>加鼠标左键点击<code>CIFilter</code>类名进去查看。<br>如上，二维码生成器滤镜需要量输入参数：</p>
+<pre><code>
+///eg.1 ///示例代码KVO
+        /// 1. 实例化二维码滤镜
+        let filter = CIFilter(name: "CIQRCodeGenerator")///二维码
+
+        /// 2. 恢复滤镜的默认属性 ///值得注意
+        filter?.setDefaults()
+
+        /// 3. 将字符串转换成二进制数据，（生成二维码所需的数据）
+        let string = "hello word"
+        let data = string.data(using: String.Encoding.utf8)///Swift 3.0
+
+        /// 4. 通过KVO把二进制数据添加到滤镜inputMessage中
+        filter?.setValue(data, forKey: "inputMessage")
+        filter?.setValue("H", forKey: "inputCorrectionLevel")
+
+        /// 5. 获得滤镜输出的图像
+        let outputImage = filter?.outputImage ///CIImage
+
+        /// 6. 将CIImage转换成UIImage，并放大显示
+        //let originQRCodeImage = UIImage(ciImage: outputImage!, scale: 0.07, orientation: UIImageOrientation.up) ///原生二维码图片 ///这样将图片放大会变得模糊
+</code></pre>
+这样得到的<code>originQRCodeImage</code>是模糊的，把<code>scale</code>设为一时得到实际大小，但太小。在上篇文章我提过，需要进行重绘（效果80分）。这里我们可以使用缩放滤镜来缩放。生产高质量的、按比例缩放的源图像的版本（这是文档说明，然我并没发现有啥牛掰，还是模糊）。
+<code>CIFilter</code>为<code>"CILanczosScaleTransform"</code>(兰索斯缩放变化滤镜)，但为了达到彩色的效果我们先把颜色滤镜加上，<code>CIFliter</code>为<code>"CIFalseColor"</code>(伪色滤镜)：
+<pre><code>
+ let colorFilter = CIFilter(name: "CIFalseColor")///颜色滤镜
+        colorFilter!.setDefaults()
+        colorFilter!.setValue(outputImage
+            , forKey:kCIInputImageKey)
+
+        colorFilter!.setValue(CIColor(red: 33.0 / 225.0, green: 192.0 / 225.0, blue: 174.0 / 225.0, alpha: 1.0), forKey:"inputColor0")///二维码元素（像素）
+        colorFilter!.setValue(CIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1), forKey:"inputColor1")///背景
+
+        let colorImgae = colorFilter!.outputImage
+</code></pre>
+
+<pre><code>
+ let scaleFilter = CIFilter(name: "CILanczosScaleTransform") ///兰索斯缩放变化滤镜
+        scaleFilter?.setDefaults()
+        scaleFilter?.setValue(colorImgae, forKey: kCIInputImageKey)
+        scaleFilter?.setValue(1.0, forKey: kCIInputScaleKey)
+        scaleFilter?.setValue(1.0, forKey: kCIInputAspectRatioKey)
+        let scaleImage = scaleFilter?.outputImage
+</code></pre>
+
+<p>所以通过添加锐化滤镜来锐化一下，<code>CIFilter</code>为<code>“CISharpenLuminance”</code>(亮度锐化，对光度有作用，度色度没影响)：</p>
+<pre><code>
+ let sharpenFilter = CIFilter(name: "CISharpenLuminance") ///细节锐化滤镜
+        ///It operates on the luminance of the image; the chrominance of the pixels remains unaffected.
+        sharpenFilter?.setDefaults()
+        sharpenFilter?.setValue(scaleImage, forKey: kCIInputImageKey)
+        sharpenFilter?.setValue(10.0, forKey: kCIInputSharpnessKey)
+        let sharpenImage = sharpenFilter?.outputImage
+</code></pre>
+
+<p>最后得到图片：</p>
+<pre><code>
+let newQRCodeImage = UIImage(ciImage: sharpenImage!)
+        let imgBtn = UIButton(type: .custom)
+        imgBtn.frame = self.view.frame
+        imgBtn.setImage(newQRCodeImage, for: .normal)
+        self.view.addSubview(imgBtn)
+</code></pre>
+
+<p>通过参数的设置，得到的图片效果70分；</p>
+<p>而在进行重绘后，再进行锐化处理的话，你就会发现效果是真的不错（95分）。</p>
+<p>因为升为了Switft3.0代码，所以代码需要少量修改。主要就是Swift3.0把<code>CoreGraphics</code>的全局方法改为了实例方法，</p>
+<pre><code>
+func createUIimageWithCGImage(ciImage image: CIImage, widthAndHeightValue wh: CGFloat) -> CIImage {
+        let ciRect = image.extent.integral///根据容器得到适合的尺寸
+        let scale = min(wh / ciRect.width, wh / ciRect.height)
+
+        ///获取bitmap
+        let width  = size_t(ciRect.width * scale)
+
+        let height  = size_t(ciRect.height * scale)
+        let cs = CGColorSpaceCreateDeviceGray()///灰度颜色通道 ///CGColorSpaceRef
+
+        let info_UInt32 = CGImageAlphaInfo.none.rawValue
+        let bitmapRef = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0, space: cs, bitmapInfo: info_UInt32)
+
+        let contex = CIContext(options: nil) ///  创建基于GPU的CIContext对象,性能和效果更好
+        let bitmapImageRef = contex.createCGImage(image, from: CGRect(x: ciRect.origin.x, y: ciRect.origin.y, width: ciRect.size.width, height: ciRect.size.height)) ///CGImageRef
+
+        ///swift 3.0, 把全局方法改为了实例方法
+        bitmapRef!.interpolationQuality = CGInterpolationQuality.high///写入质量高，时间长
+        bitmapRef!.scaleBy(x: scale, y: scale) ///调整“画布”的缩放
+        bitmapRef?.draw(bitmapImageRef!, in: ciRect, byTiling: true)///绘制图片
+
+        ///保存
+        let scaledImage = bitmapRef!.makeImage() ///cgimage
+
+        ///bitmapRef和bitmapImageRef不用主动释放，Core Foundation自动管理
+        //let originImage = UIImage(CGImage: scaledImage!) ///原生灰度图片（灰色）
+
+        let ciImage = CIImage(cgImage: scaledImage!) ///ciimage
+        //let newQRCodeImage = UIImage(cgImage: scaledImage!) ///uiimage
+
+        return ciImage
+    }
+</code></pre>
+
+<p>附录：</p>
+<pre>
+    ///附：你要是细心，或者有点好奇心，你可能会问，为什么我们看到的二维码中间都有一个小图片，
+    ///确实现在的大多二维码生成工具都喜欢中间贴上一个小图，但是上述生成的二维码并没有，
+    ///其实这很简单，这也是我没有在这个小问题给出示例的原因。其实二维码在缺少小部分的情况下，并不影响存储信息的完整性
+    ///所以小图片是另外加上去的，只是遮掉了一小块二维码内容，这并不影响什么。
+    ///然而在一张图上添加另一张图，相信你也觉得这并不是什么问题。自己试试吧。
+    ///如：用<code>quartz2D</code> <code>drawimga</code>的方法即可。
+</pre>
+
+<p><img src="/Users/jornwu/Desktop/锐化.png" alt="只用锐化的效果图"><br><img src="/Users/jornwu/Desktop/重绘效果.png" alt="只用重绘的效果图"><br><img src="/Users/jornwu/Desktop/重绘+锐化效果图.png" alt="使用重绘+锐化的效果图"></p>
+
+      
+    </div>
+    
+    
+    
+		
+		
+		
+		<div>
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		</div>
+		
+
+		
+		<div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/blog/2016/09/21/CIFilter介绍/">看了这个，你就可以打造自己的美图秀秀</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Jorn Wu 的个人博客">Jorn Wu</a></p>
+  <p><span>发布时间:</span>2016年09月21日 - 23:09</p>
+  <p><span>最后更新:</span>2019年03月05日 - 22:03</p>
+  <p><span>原始链接:</span><a href="/blog/2016/09/21/CIFilter介绍/" title="看了这个，你就可以打造自己的美图秀秀">https://jornwu.com/blog/2016/09/21/CIFilter介绍/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://jornwu.com/blog/2016/09/21/CIFilter介绍/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+	  $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	    });
+    });  
+</script>
+
+		</div>
+		
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Jorn Wu 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Jorn Wu 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/09/17/iOS_最全的二维码篇/" rel="next" title="iOS_最全的二维码篇">
+                <i class="fa fa-chevron-left"></i> iOS_最全的二维码篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/09/29/【干货】五分钟，正则表达式不再是你的烦恼/" rel="prev" title="干货 | 五分钟，正则表达式不再是你的烦恼">
+                干货 | 五分钟，正则表达式不再是你的烦恼 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/blog/images/avatar.png" alt="Jorn Wu">
+            
+              <p class="site-author-name" itemprop="name">Jorn Wu</p>
+              <p class="site-description motion-element" itemprop="description">Jorn 的个人博客分享站，涉及iOS，Android，Qt，Linux等</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/JornWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/c718dbf8e4d0" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jorn Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">10.7k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user">本站访客数</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye">本站总访问量</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

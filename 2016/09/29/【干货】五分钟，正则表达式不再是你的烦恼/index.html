@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="序言：作为一个程序猿，但很多人的“起家”不同，而我则是以iOS“起家”的，所以一直都想写点关于iOS方面，有点意义又有点价值的东西，但是，现在白天忙于工作，而且是Qt和C++方面的项目，所以给iOS探究的时间相对较少。今天就先分享一点关于正则表达式的干货把，作为猿族的我们都知道，正则表达式在匹配查询内容和匹配搜索方面还是较为常用的。但是我不是过目不忘，相信很多人都不是，所以在用到的时候才去查找，然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="干货 | 五分钟，正则表达式不再是你的烦恼">
+<meta property="og:url" content="https://jornwu.com/blog/2016/09/29/【干货】五分钟，正则表达式不再是你的烦恼/index.html">
+<meta property="og:site_name" content="Jorn&#39;s Blog">
+<meta property="og:description" content="序言：作为一个程序猿，但很多人的“起家”不同，而我则是以iOS“起家”的，所以一直都想写点关于iOS方面，有点意义又有点价值的东西，但是，现在白天忙于工作，而且是Qt和C++方面的项目，所以给iOS探究的时间相对较少。今天就先分享一点关于正则表达式的干货把，作为猿族的我们都知道，正则表达式在匹配查询内容和匹配搜索方面还是较为常用的。但是我不是过目不忘，相信很多人都不是，所以在用到的时候才去查找，然">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-04T17:38:26.360Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="干货 | 五分钟，正则表达式不再是你的烦恼">
+<meta name="twitter:description" content="序言：作为一个程序猿，但很多人的“起家”不同，而我则是以iOS“起家”的，所以一直都想写点关于iOS方面，有点意义又有点价值的东西，但是，现在白天忙于工作，而且是Qt和C++方面的项目，所以给iOS探究的时间相对较少。今天就先分享一点关于正则表达式的干货把，作为猿族的我们都知道，正则表达式在匹配查询内容和匹配搜索方面还是较为常用的。但是我不是过目不忘，相信很多人都不是，所以在用到的时候才去查找，然">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jornwu.com/blog/2016/09/29/【干货】五分钟，正则表达式不再是你的烦恼/">
+
+
+
+
+
+  <title>干货 | 五分钟，正则表达式不再是你的烦恼 | Jorn's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jorn's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jornwu.com/blog/blog/2016/09/29/【干货】五分钟，正则表达式不再是你的烦恼/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorn Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorn's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">干货 | 五分钟，正则表达式不再是你的烦恼</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-29T00:04:48+08:00">
+                2016-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o">本文总阅读量</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  18
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>序言</strong>：作为一个程序猿，但很多人的“起家”不同，而我则是以iOS“起家”的，所以一直都想写点关于iOS方面，有点意义又有点价值的东西，但是，现在白天忙于工作，而且是Qt和C++方面的项目，所以给iOS探究的时间相对较少。今天就先分享一点关于正则表达式的干货把，作为猿族的我们都知道，正则表达式在匹配查询内容和匹配搜索方面还是较为常用的。但是我不是过目不忘，相信很多人都不是，所以在用到的时候才去查找，然后再去慢慢匹配和测试。看完这篇文章之后，如果觉得还不错，请点一下❤️，让有需要的小伙伴也能看到，你也可以加入收藏，这样我保证能帮你在需要时提高不少效率，这也是我分享这篇文章的初衷所在。</p>
+<h2 id="1、元字符"><a href="#1、元字符" class="headerlink" title="1、元字符"></a>1、元字符</h2><p>表1.常用的元字符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码/表达式</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">匹配除换行符以外的任意字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\w</td>
+<td style="text-align:center">匹配字母或数字或下划线或汉字</td>
+</tr>
+<tr>
+<td style="text-align:center">\s</td>
+<td style="text-align:center">匹配任意的空白符</td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td style="text-align:center">匹配数字</td>
+</tr>
+<tr>
+<td style="text-align:center">\b</td>
+<td style="text-align:center">匹配单词的开始或结束</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">匹配字符串的开始</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">匹配字符串的结束</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2、字符转义"><a href="#2、字符转义" class="headerlink" title="2、字符转义"></a>2、字符转义</h2><p>如你要查找<code>.</code>，或者<code><em></em></code>,就出现了问题：你没办法指定它们，因为它们会被解释成别的意思。这时你就得使用\来取消这些字符的特殊意义。因此，你应该使用<code>\.</code>和<code> \\ </code>。当然，要查找<code> \ </code>本身，你也得用<code>\\ </code>。</p>
+<h2 id="3、重复"><a href="#3、重复" class="headerlink" title="3、重复"></a>3、重复</h2><p>表2.常用的限定符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码/表达式</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">重复零次或更多次</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">重复一次或更多次</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">重复零次或一次</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td style="text-align:center">重复n次</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}</td>
+<td style="text-align:center">重复n次或更多次</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}</td>
+<td style="text-align:center">重复n到m次</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4、字符类"><a href="#4、字符类" class="headerlink" title="4、字符类"></a>4、字符类</h2><ul>
+<li>[“<em>your set</em>”]：如[aeiou]，则匹配<code>a</code>，<code>e</code>，<code>i</code>，<code>o</code>和<code>u</code>中的<strong>任意一个</strong>，同理[.?!]匹配标点符号(<code>.</code>或<code>?</code>或<code>!</code>)。</li>
+<li>[0-9]：与<code>\d</code>就是完全一致，表示<strong>一位数字</strong>。</li>
+<li>[a-zA-Z]：表示<strong>一个字母</strong>，[a-z0-9A-Z]等同于<code>\w</code>。</li>
+</ul>
+<p>例4-1：\(?0\d{2}[)-]?\d{8}</p>
+<p>分析：这个表达式可以匹配几种格式的电话号码，像(010)88886666，或022-22334455，或02912345678等。我们对它进行一些分析吧：首先是一个转义字符<code>\(</code>，它能出现0次或1次<code>?</code>，然后是一个0，后面跟着2个数字<code>\d{2}</code>，然后是)或-或空格中的一个，它出现1次或不出现<code>?</code>，最后是8个数字<code>\d{8}</code>。</p>
+<h2 id="5、分枝条件"><a href="#5、分枝条件" class="headerlink" title="5、分枝条件"></a>5、分枝条件</h2><p>如果你认真去看<strong>例4-1</strong>，发现那个表达式也能匹配010)12345678或(022-87654321这样的“不正确”的格式。要解决这个问题，我们需要用到<strong>分枝条件</strong>。</p>
+<p><em>正则表达式里的<strong>分枝条件</strong>指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用<code>|</code>（竖线）把不同的规则分隔开</em></p>
+<p>例5-1：0\d{2}-\d{8}|0\d{3}-\d{7}</p>
+<p>分析：这个表达式能匹配两种以连字号分隔的电话号码：一种是三位区号，8位本地号(如：010-12345678)，一种是4位区号，7位本地号(如：0376-2233445)，<code>0\d{2}-\d{8}</code>表示“0”加两数字加“-”加8个数字，<code>0\d{3}-\d{7}</code>表示“0”加三数字加“-”加7个数字，<code>|</code>可理解为“或”。就是查找与前者相匹配或者与后者相匹配的内容。</p>
+<p><strong>注意</strong>：使用<strong>分枝条件</strong>时，要注意各个条件的顺序。因为匹配<strong>分枝条件</strong>时，将会从左到右地测试每个条件，如果满足了某个分枝的话，就不会去再管其它的条件了。如：<code>\d{5}-\d{4}|\d{5}</code>和<code>\d{5}|\d{5}-\d{4}</code>是不同的。</p>
+<h2 id="6、分组"><a href="#6、分组" class="headerlink" title="6、分组"></a>6、分组</h2><p>我们已经提到了怎么重复单个字符（直接在字符后面加上限定符就行了）；但如果想要重复多个字符又该怎么办？你可以用小括号来指定子表达式(也叫做分组)，然后你就可以指定这个子表达式的重复次数了。</p>
+<p>例6-1：(\d{1,3}.){3}\d{1,3}</p>
+<p>分析：这是一个简单的IP地址匹配表达式。要理解这个表达式，请按下列顺序分析它：<code>\d{1,3}</code>匹配1到3位的数字，<code>(\d{1,3}.)</code> <code>{3}</code>匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字<code>\d{1,3}</code>。</p>
+<p>不幸的是，它也将匹配256.300.888.999这种不可能存在的IP地址。如果能使用算术比较的话，或许能简单地解决这个问题，但是正则表达式中并不提供关于数学的任何功能，所以只能使用冗长的分组，选择，字符类来描述一个正确的IP地址：((2[0-4]\d|25[0-5]|[01]?\d\d?).){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)。</p>
+<h2 id="7、反义"><a href="#7、反义" class="headerlink" title="7、反义"></a>7、反义</h2><p>有时需要查找不属于某个能简单定义的字符类的字符。比如想查找除了数字以外，其它任意字符都行的情况，这时需要用到<strong>反义</strong>。</p>
+<p>表3.常用的反义代码</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码/表达式</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\W</td>
+<td style="text-align:center">匹配任意不是字母，数字，下划线，汉字的字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\S</td>
+<td style="text-align:center">匹配任意不是空白符的字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\D</td>
+<td style="text-align:center">匹配任意非数字的字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\B</td>
+<td style="text-align:center">匹配不是单词开头或结束的位置</td>
+</tr>
+<tr>
+<td style="text-align:center">[^x]</td>
+<td style="text-align:center">匹配除了x以外的任意字符</td>
+</tr>
+<tr>
+<td style="text-align:center">[^aeiou]</td>
+<td style="text-align:center">匹配除了aeiou这几个字母以外的任意字符</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8、反向引用"><a href="#8、反向引用" class="headerlink" title="8、反向引用"></a>8、反向引用</h2><p>使用小括号指定一个子表达式后，匹配这个子表达式的文本(也就是此分组捕获的内容)可以在表达式或其它程序中作进一步的处理。默认情况下，每个分组会自动拥有一个组号，规则是：从左向右，以分组的左括号为标志，第一个出现的分组的组号为1，第二个为2，以此类推。<br><strong>后向引用</strong>用于重复搜索前面某个分组匹配的文本。例如，<code>\1</code>代表分组1匹配的文本。</p>
+<p>例8-1：\b(\w+)\b\s+\1\b</p>
+<p>分析：可以匹配重复的单词，像go go, 或者kitty kitty。这个表达式首先是一个单词，也就是单词开始处和结束处之间的多于一个的字母或数字<code>\b(\w+)\b</code>，这个单词会被捕获到编号为1的分组中，然后是1个或几个空白符<code>\s+</code>，最后是分组1中捕获的内容（也就是前面匹配的那个单词）<code>\1</code>。</p>
+<p>表4.常用分组语法</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">分类</th>
+<th style="text-align:center">代码/语法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">捕获</td>
+<td style="text-align:center">(exp)</td>
+<td style="text-align:center">匹配exp,并捕获文本到自动命名的组里</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">(?&lt;name>exp)</td>
+<td style="text-align:center">匹配exp,并捕获文本到名称为name的组里，也可以写成(?’name’exp)</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">(?:exp)</td>
+<td style="text-align:center">匹配exp,不捕获匹配的文本，也不给此分组分配组号</td>
+</tr>
+<tr>
+<td style="text-align:center">零宽断言</td>
+<td style="text-align:center">(?=exp)</td>
+<td style="text-align:center">匹配exp前面的位置</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">(?&lt;=exp)</td>
+<td style="text-align:center">匹配exp后面的位置</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">(?!exp)</td>
+<td style="text-align:center">匹配后面跟的不是exp的位置</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">(?&lt;!exp)</td>
+<td style="text-align:center">匹配前面不是exp的位置</td>
+</tr>
+<tr>
+<td style="text-align:center">注释</td>
+<td style="text-align:center">(?#comment)</td>
+<td style="text-align:center">这种类型的分组不对正则表达式的处理产生任何影响，用于提供注释让人阅读</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9、贪婪与懒惰"><a href="#9、贪婪与懒惰" class="headerlink" title="9、贪婪与懒惰"></a>9、贪婪与懒惰</h2><p>当正则表达式中包含能接受重复的限定符时，通常的行为是（在使整个表达式能得到匹配的前提下）匹配尽可能多的字符。以这个表达式为例：a.*b，它将会匹配最长的以a开始，以b结束的字符串。如果用它来搜索aabab的话，它会匹配整个字符串aabab。这被称为贪婪匹配。<br>有时，我们更需要懒惰匹配，也就是匹配尽可能少的字符。前面给出的限定符都可以被转化为懒惰匹配模式，只要在它后面加上一个问号?。这样.*?就意味着匹配任意数量的重复，但是在能使整个匹配成功的前提下使用最少的重复。现在看看懒惰版的例子吧：<br>a.*?b匹配最短的，以a开始，以b结束的字符串。如果把它应用于aabab的话，它会匹配aab（第一到第三个字符）和ab（第四到第五个字符）。</p>
+<p><strong>注意</strong>：最先开始的匹配拥有最高的优先权</p>
+<p>表5.懒惰限定符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码/表达式</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">*?</td>
+<td style="text-align:center">重复任意次，但尽可能少重复</td>
+</tr>
+<tr>
+<td style="text-align:center">+?</td>
+<td style="text-align:center">重复1次或更多次，但尽可能少重复</td>
+</tr>
+<tr>
+<td style="text-align:center">??</td>
+<td style="text-align:center">重复0次或1次，但尽可能少重复</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}?</td>
+<td style="text-align:center">重复n到m次，但尽可能少重复</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}?</td>
+<td style="text-align:center">重复n次以上，但尽可能少重复</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p>注：该文章引用于<a href="http://deerchao.net/tutorials/regex/regex.htm" target="_blank" rel="noopener">正则表达式30分钟入门教程</a>，更多更详细介绍请查看原文。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>附表：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码/表达式</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:center">将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\\’ 匹配 “\” 而 “\(“ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 ‘\n’ 或 ‘\r’ 之后的位置。</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 ‘\n’ 或 ‘\r’ 之前的位置。</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">匹配前面的子表达式零次或多次。例如，zo<em> 能匹配 “z” 以及 “zoo”。</em> 等价于{0,}。</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 中的”do” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td style="text-align:center">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}</td>
+<td style="text-align:center">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*‘。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}</td>
+<td style="text-align:center">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">当该字符紧跟在任何一个其他限制符 (*, +, ?, {n}, {n,}, {n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串 “oooo”，’o+?’ 将匹配单个 “o”，而 ‘o+’ 将匹配所有 ‘o’。</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">匹配除 “\n” 之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，请使用象 ‘[.\n]’ 的模式。</td>
+</tr>
+<tr>
+<td style="text-align:center">(pattern)</td>
+<td style="text-align:center">匹配 pattern 并获取这一匹配。所获取的匹配可以从产生的 Matches 集合得到，在VBScript 中使用 SubMatches 集合，在JScript 中则使用 $0…$9 属性。要匹配圆括号字符，请使用 ‘(‘ 或 ‘)‘。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?:pattern)</td>
+<td style="text-align:center">匹配 pattern 但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用“或”字符“&#124;”来组合一个模式的各个部分是很有用。例如， ‘industr(?:y&#124;ies)’就是一个比 ‘industry&#124;industries’ 更简略的表达式。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?=pattern)</td>
+<td style="text-align:center">正向预查，在任何匹配 pattern 的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，’Windows (?=95&#124;98&#124;NT&#124;2000)’ 能匹配 “Windows 2000” 中的 “Windows” ，但不能匹配 “Windows 3.1” 中的 “Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?!pattern)</td>
+<td style="text-align:center">负向预查，在任何不匹配 pattern 的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如’Windows (?!95&#124;98&#124;NT&#124;2000)’ 能匹配 “Windows 3.1” 中的 “Windows”，但不能匹配 “Windows 2000” 中的 “Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td style="text-align:center">x&#124;y</td>
+<td style="text-align:center">匹配x 或 y。例如，’z&#124;food’ 能匹配 “z” 或 “food”。’(z&#124;f)ood’ 则匹配 “zood” 或 “food”。</td>
+</tr>
+<tr>
+<td style="text-align:center">[xyz]</td>
+<td style="text-align:center">字符集合。匹配所包含的任意一个字符。例如， ‘[abc]’ 可以匹配 “plain” 中的 ‘a’。</td>
+</tr>
+<tr>
+<td style="text-align:center">[^xyz]</td>
+<td style="text-align:center">负值字符集合。匹配未包含的任意字符。例如， ‘[^abc]’ 可以匹配 “plain” 中的’p’、’l’、’i’、’n’。</td>
+</tr>
+<tr>
+<td style="text-align:center">[a-z]</td>
+<td style="text-align:center">字符范围。匹配指定范围内的任意字符。例如，’[a-z]’ 可以匹配 ‘a’ 到 ‘z’ 范围内的任意小写字母字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">[^a-z]</td>
+<td style="text-align:center">负值字符范围。匹配任何不在指定范围内的任意字符。例如，’[^a-z]’ 可以匹配任何不在 ‘a’ 到 ‘z’ 范围内的任意字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">\b</td>
+<td style="text-align:center">匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’ 可以匹配”never” 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\B</td>
+<td style="text-align:center">匹配非单词边界。’er\B’ 能匹配 “verb” 中的 ‘er’，但不能匹配 “never” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\cx</td>
+<td style="text-align:center">匹配由 x 指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td style="text-align:center">匹配一个数字字符。等价于 [0-9]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\D</td>
+<td style="text-align:center">匹配一个非数字字符。等价于 [^0-9]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\f</td>
+<td style="text-align:center">匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td style="text-align:center">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td style="text-align:center">\r</td>
+<td style="text-align:center">匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td style="text-align:center">\s</td>
+<td style="text-align:center">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\S</td>
+<td style="text-align:center">匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\t</td>
+<td style="text-align:center">匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td style="text-align:center">\v</td>
+<td style="text-align:center">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+<tr>
+<td style="text-align:center">\w</td>
+<td style="text-align:center">匹配包括下划线的任何单词字符。等价于’[A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\W</td>
+<td style="text-align:center">匹配任何非单词字符。等价于 ‘[^A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\xn</td>
+<td style="text-align:center">匹配 n，其中 n 为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，’\x41’ 匹配 “A”。’\x041’ 则等价于 ‘\x04’ &amp; “1”。正则表达式中可以使用 ASCII 编码。</td>
+</tr>
+<tr>
+<td style="text-align:center">\num</td>
+<td style="text-align:center">匹配 num，其中 num 是一个正整数。对所获取的匹配的引用。例如，’(.)\1’ 匹配两个连续的相同字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td style="text-align:center">标识一个八进制转义值或一个向后引用。如果 \n 之前至少 n 个获取的子表达式，则 n 为向后引用。否则，如果 n 为八进制数字 (0-7)，则 n 为一个八进制转义值。</td>
+</tr>
+<tr>
+<td style="text-align:center">\nm</td>
+<td style="text-align:center">标识一个八进制转义值或一个向后引用。如果 \nm 之前至少有 nm 个获得子表达式，则 nm 为向后引用。如果 \nm 之前至少有 n 个获取，则 n 为一个后跟文字 m 的向后引用。如果前面的条件都不满足，若 n 和 m 均为八进制数字 (0-7)，则 \nm 将匹配八进制转义值 nm。</td>
+</tr>
+<tr>
+<td style="text-align:center">\nml</td>
+<td style="text-align:center">如果 n 为八进制数字 (0-3)，且 m 和 l 均为八进制数字 (0-7)，则匹配八进制转义值 nml。</td>
+</tr>
+<tr>
+<td style="text-align:center">\un</td>
+<td style="text-align:center">匹配 n，其中 n 是一个用四个十六进制数字表示的 Unicode 字符。例如， \u00A9 匹配版权符号 (?)。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p>用户名：^[a-z0-9_-]{3,16}$</p>
+<p>密码：^[a-z0-9_-]{6,18}$</p>
+<p>十六进制值：^#?([a-f0-9]{6}|[a-f0-9]{3})$</p>
+<p>电子邮箱：^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$</p>
+<p>URL：^(https?:\/\/)?([\da-z.-]+).([a-z.]{2,6})([\/\w .-]*)*\/?$</p>
+<p>IP 地址：^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$</p>
+<p>HTML 标签：^&lt;([a-z]+)([^&lt;]+)*(?:&gt;(.*)&lt;\/\1&gt;|\s+\/&gt;)$</p>
+<p>Unicode编码中的汉字范围：^[u4e00-u9fa5],{0,}$</p>
+<p>匹配中文字符的正则表达式： [\u4e00-\u9fa5]</p>
+<p>评注：匹配中文还真是个头疼的事，有了这个表达式就好办了</p>
+<p>匹配双字节字符(包括汉字在内)：[^\x00-\xff]</p>
+<p>评注：可以用来计算字符串的长度（一个双字节字符长度计2，ASCII字符计1）</p>
+<p>匹配空白行的正则表达式：\n\s*\r</p>
+<p>评注：可以用来删除空白行</p>
+<p>匹配HTML标记的正则表达式：&lt;(\S*?)[^&gt;]*&gt;.*?&lt;/\1&gt;|&lt;.*? /&gt;</p>
+<p>评注：网上流传的版本太糟糕，上面这个也仅仅能匹配部分，对于复杂的嵌套标记依旧无能为力</p>
+<p>匹配首尾空白字符的正则表达式：^\s*|\s*$</p>
+<p>评注：可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式</p>
+<p>匹配Email地址的正则表达式：\w+([-+.]\w+)*@\w+([-.]\w+)*.\w+([-.]\w+)*</p>
+<p>评注：表单验证时很实用</p>
+<p>匹配网址URL的正则表达式：[a-zA-z]+://[^\s]*</p>
+<p>评注：网上流传的版本功能很有限，上面这个基本可以满足需求</p>
+<p>匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$</p>
+<p>评注：表单验证时很实用</p>
+<p>匹配国内电话号码：\d{3}-\d{8}|\d{4}-\d{7}</p>
+<p>评注：匹配形式如 0511-4405222 或 021-87888822</p>
+<p>匹配腾讯QQ号：[1-9][0-9]{4,}</p>
+<p>评注：腾讯QQ号从10000开始</p>
+<p>匹配中国大陆邮政编码：[1-9]\d{5}(?!\d)</p>
+<p>评注：中国大陆邮政编码为6位数字</p>
+<p>匹配身份证：\d{15}|\d{18}</p>
+<p>评注：中国大陆的身份证为15位或18位</p>
+<p>匹配ip地址：\d+.\d+.\d+.\d+</p>
+<p>评注：提取ip地址时有用</p>
+<p>匹配特定数字：</p>
+<p>^[1-9]\d*$　 　 //匹配正整数</p>
+<p>^-[1-9]\d*$ 　 //匹配负整数</p>
+<p>^-?[1-9]\d*$　　 //匹配整数</p>
+<p>^[1-9]\d*|0$　 //匹配非负整数（正整数 + 0）</p>
+<p>^-[1-9]\d*|0$　　 //匹配非正整数（负整数 + 0）</p>
+<p>^[1-9]\d*.\d*|0.\d*[1-9]\d*$　　 //匹配正浮点数</p>
+<p>^-([1-9]\d*.\d*|0.\d*[1-9]\d*)$　 //匹配负浮点数</p>
+<p>^-?([1-9]\d*.\d*|0.\d*[1-9]\d*|0?.0+|0)$　 //匹配浮点数</p>
+<p>^[1-9]\d*.\d*|0.\d*[1-9]\d*|0?.0+|0$　　 //匹配非负浮点数（正浮点数 + 0）</p>
+<p>^(-([1-9]\d*.\d*|0.\d*[1-9]\d*))|0?.0+|0$　　//匹配非正浮点数（负浮点数 + 0）</p>
+<p>评注：处理大量数据时有用，具体应用时注意修正</p>
+<p>匹配特定字符串：<br>^[A-Za-z]+$　　//匹配由26个英文字母组成的字符串</p>
+<p>^[A-Z]+$　　//匹配由26个英文字母的大写组成的字符串</p>
+<p>^[a-z]+$　　//匹配由26个英文字母的小写组成的字符串</p>
+<p>^[A-Za-z0-9]+$　　//匹配由数字和26个英文字母组成的字符串</p>
+<p>^\w+$　　//匹配由数字、26个英文字母或者下划线组成的字符串</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+		
+		
+		
+		<div>
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		</div>
+		
+
+		
+		<div>
+        
+		</div>
+		
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Jorn Wu 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Jorn Wu 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/09/21/CIFilter介绍/" rel="next" title="看了这个，你就可以打造自己的美图秀秀">
+                <i class="fa fa-chevron-left"></i> 看了这个，你就可以打造自己的美图秀秀
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/blog/images/avatar.png" alt="Jorn Wu">
+            
+              <p class="site-author-name" itemprop="name">Jorn Wu</p>
+              <p class="site-description motion-element" itemprop="description">Jorn 的个人博客分享站，涉及iOS，Android，Qt，Linux等</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/JornWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/c718dbf8e4d0" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、元字符"><span class="nav-number">1.</span> <span class="nav-text">1、元字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、字符转义"><span class="nav-number">2.</span> <span class="nav-text">2、字符转义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、重复"><span class="nav-number">3.</span> <span class="nav-text">3、重复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、字符类"><span class="nav-number">4.</span> <span class="nav-text">4、字符类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、分枝条件"><span class="nav-number">5.</span> <span class="nav-text">5、分枝条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、分组"><span class="nav-number">6.</span> <span class="nav-text">6、分组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、反义"><span class="nav-number">7.</span> <span class="nav-text">7、反义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、反向引用"><span class="nav-number">8.</span> <span class="nav-text">8、反向引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9、贪婪与懒惰"><span class="nav-number">9.</span> <span class="nav-text">9、贪婪与懒惰</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jorn Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">10.7k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user">本站访客数</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye">本站总访问量</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
